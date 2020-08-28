@@ -161,8 +161,7 @@ func TestGlobalPlugin(t *testing.T) {
 			},
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Plugins),
@@ -342,8 +341,7 @@ func TestSecretConfigurationPlugin(t *testing.T) {
 			}
 			store, err := store.NewFakeStore(objects)
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 			assert.Equal(3, len(state.Plugins),
@@ -447,8 +445,7 @@ func TestSecretConfigurationPlugin(t *testing.T) {
 			}
 			store, err := store.NewFakeStore(objects)
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 			assert.Equal(0, len(state.Plugins),
@@ -541,8 +538,7 @@ func TestSecretConfigurationPlugin(t *testing.T) {
 			}
 			store, err := store.NewFakeStore(objects)
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 			assert.Equal(0, len(state.Plugins),
@@ -593,17 +589,16 @@ func TestSecretConfigurationPlugin(t *testing.T) {
 		}
 		store, err := store.NewFakeStore(objects)
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		for _, testcase := range references {
-			config, err := parser.secretToConfiguration(*testcase, "default")
+			config, err := secretToConfiguration(store, *testcase, "default")
 			assert.NotEmpty(config)
 			assert.Nil(err)
 		}
 		for _, testcase := range badReferences {
-			config, err := parser.secretToConfiguration(*testcase, "default")
+			config, err := secretToConfiguration(store, *testcase, "default")
 			assert.Empty(config)
 			assert.NotEmpty(err)
 		}
@@ -692,8 +687,7 @@ func TestSecretConfigurationPlugin(t *testing.T) {
 			}
 			store, err := store.NewFakeStore(objects)
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 			assert.Equal(0, len(state.Plugins),
@@ -724,8 +718,7 @@ func TestCACertificate(t *testing.T) {
 			Secrets: secrets,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -769,8 +762,7 @@ func TestCACertificate(t *testing.T) {
 			Secrets: secrets,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -823,8 +815,7 @@ func TestCACertificate(t *testing.T) {
 			Secrets: secrets,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -907,8 +898,7 @@ func TestServiceClientCertificate(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Certificates),
@@ -975,8 +965,7 @@ func TestServiceClientCertificate(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(0, len(state.Certificates),
@@ -1036,8 +1025,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -1114,8 +1102,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -1193,8 +1180,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 				Services:  services,
 			})
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 
@@ -1273,8 +1259,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 				Services:  services,
 			})
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 
@@ -1352,8 +1337,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 				Services:  services,
 			})
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 
@@ -1431,8 +1415,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 				Services:  services,
 			})
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 
@@ -1510,8 +1493,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 				Services:  services,
 			})
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 
@@ -1589,8 +1571,7 @@ func TestKongRouteAnnotations(t *testing.T) {
 				Services:  services,
 			})
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 
@@ -1670,8 +1651,7 @@ func TestKongProcessClasslessIngress(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -1721,8 +1701,7 @@ func TestKongProcessClasslessIngress(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -1800,8 +1779,7 @@ func TestKnativeIngressAndPlugins(t *testing.T) {
 			KongPlugins:      plugins,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -1909,8 +1887,7 @@ func TestKongServiceAnnotations(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -1990,8 +1967,7 @@ func TestKongServiceAnnotations(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 
@@ -2077,8 +2053,7 @@ func TestKongServiceAnnotations(t *testing.T) {
 				Services:  services,
 			})
 			assert.Nil(err)
-			parser := New(store, logrus.New())
-			state, err := parser.Build()
+			state, err := Build(logrus.New(), store)
 			assert.Nil(err)
 			assert.NotNil(state)
 
@@ -2145,8 +2120,7 @@ func TestDefaultBackend(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Services),
@@ -2214,8 +2188,7 @@ func TestDefaultBackend(t *testing.T) {
 			Services:  services,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(0, len(state.Certificates),
@@ -2280,8 +2253,7 @@ func TestParserSecret(t *testing.T) {
 			Secrets:   secrets,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(0, len(state.Certificates),
@@ -2362,8 +2334,7 @@ func TestParserSecret(t *testing.T) {
 			Secrets:   secrets,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Certificates),
@@ -2444,8 +2415,7 @@ func TestParserSecret(t *testing.T) {
 			Secrets:   secrets,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Certificates),
@@ -2523,8 +2493,7 @@ func TestPluginAnnotations(t *testing.T) {
 			KongPlugins: plugins,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Plugins),
@@ -2621,8 +2590,7 @@ func TestPluginAnnotations(t *testing.T) {
 			KongClusterPlugins: clusterPlugins,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Plugins),
@@ -2692,8 +2660,7 @@ func TestPluginAnnotations(t *testing.T) {
 			KongClusterPlugins: clusterPlugins,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(1, len(state.Plugins),
@@ -2739,8 +2706,7 @@ func TestPluginAnnotations(t *testing.T) {
 			Ingresses: ingresses,
 		})
 		assert.Nil(err)
-		parser := New(store, logrus.New())
-		state, err := parser.Build()
+		state, err := Build(logrus.New(), store)
 		assert.Nil(err)
 		assert.NotNil(state)
 		assert.Equal(0, len(state.Plugins),
@@ -2750,9 +2716,6 @@ func TestPluginAnnotations(t *testing.T) {
 
 func TestParseIngressRules(t *testing.T) {
 	assert := assert.New(t)
-	p := Parser{
-		Logger: logrus.New(),
-	}
 	ingressList := []*networking.Ingress{
 		// 0
 		{
@@ -3049,7 +3012,7 @@ func TestParseIngressRules(t *testing.T) {
 		},
 	}
 	t.Run("no ingress returns empty info", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{},
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{},
 			[]*configurationv1beta1.TCPIngress{})
 		assert.Equal(ingressRules{
 			ServiceNameToServices: make(map[string]Service),
@@ -3057,7 +3020,7 @@ func TestParseIngressRules(t *testing.T) {
 		}, parsedInfo)
 	})
 	t.Run("empty TCPIngress return empty info", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{},
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{},
 			[]*configurationv1beta1.TCPIngress{tcpIngressList[0]})
 		assert.Equal(ingressRules{
 			ServiceNameToServices: make(map[string]Service),
@@ -3065,7 +3028,7 @@ func TestParseIngressRules(t *testing.T) {
 		}, parsedInfo)
 	})
 	t.Run("simple ingress rule is parsed", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{
 			ingressList[0],
 		}, []*configurationv1beta1.TCPIngress{})
 		assert.Equal(1, len(parsedInfo.ServiceNameToServices))
@@ -3076,7 +3039,7 @@ func TestParseIngressRules(t *testing.T) {
 		assert.Equal("example.com", *parsedInfo.ServiceNameToServices["foo-namespace.foo-svc.80"].Routes[0].Hosts[0])
 	})
 	t.Run("simple TCPIngress rule is parsed", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{},
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{},
 			[]*configurationv1beta1.TCPIngress{tcpIngressList[1]})
 		assert.Equal(1, len(parsedInfo.ServiceNameToServices))
 		svc := parsedInfo.ServiceNameToServices["default.foo-svc.80"]
@@ -3097,7 +3060,7 @@ func TestParseIngressRules(t *testing.T) {
 		}, route.Route)
 	})
 	t.Run("TCPIngress rule with host is parsed", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{},
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{},
 			[]*configurationv1beta1.TCPIngress{tcpIngressList[2]})
 		assert.Equal(1, len(parsedInfo.ServiceNameToServices))
 		svc := parsedInfo.ServiceNameToServices["default.foo-svc.80"]
@@ -3119,7 +3082,7 @@ func TestParseIngressRules(t *testing.T) {
 		}, route.Route)
 	})
 	t.Run("ingress rule with default backend", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{
 			ingressList[0],
 			ingressList[2],
 		}, []*configurationv1beta1.TCPIngress{})
@@ -3135,7 +3098,7 @@ func TestParseIngressRules(t *testing.T) {
 		assert.Equal(0, len(parsedInfo.ServiceNameToServices["bar-namespace.default-svc.80"].Routes[0].Hosts))
 	})
 	t.Run("ingress rule with TLS", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{
 			ingressList[1],
 		}, []*configurationv1beta1.TCPIngress{})
 		assert.Equal(2, len(parsedInfo.SecretNameToSNIs))
@@ -3143,14 +3106,14 @@ func TestParseIngressRules(t *testing.T) {
 		assert.Equal(2, len(parsedInfo.SecretNameToSNIs["bar-namespace/sooper-secret2"]))
 	})
 	t.Run("TCPIngress with TLS", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{},
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{},
 			[]*configurationv1beta1.TCPIngress{tcpIngressList[3]})
 		assert.Equal(2, len(parsedInfo.SecretNameToSNIs))
 		assert.Equal(2, len(parsedInfo.SecretNameToSNIs["default/sooper-secret"]))
 		assert.Equal(2, len(parsedInfo.SecretNameToSNIs["default/sooper-secret2"]))
 	})
 	t.Run("ingress rule with ACME like path has strip_path set to false", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{
 			ingressList[3],
 		}, []*configurationv1beta1.TCPIngress{})
 		assert.Equal(1, len(parsedInfo.ServiceNameToServices))
@@ -3165,7 +3128,7 @@ func TestParseIngressRules(t *testing.T) {
 		assert.False(*parsedInfo.ServiceNameToServices["foo-namespace.cert-manager-solver-pod.80"].Routes[0].StripPath)
 	})
 	t.Run("ingress with empty path is correctly parsed", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{
 			ingressList[4],
 		}, []*configurationv1beta1.TCPIngress{})
 		assert.Equal("/", *parsedInfo.ServiceNameToServices["foo-namespace.foo-svc.80"].Routes[0].Paths[0])
@@ -3173,20 +3136,20 @@ func TestParseIngressRules(t *testing.T) {
 	})
 	t.Run("empty Ingress rule doesn't cause a panic", func(t *testing.T) {
 		assert.NotPanics(func() {
-			p.parseIngressRules([]*networking.Ingress{
+			parseIngressRules(logrus.New(), []*networking.Ingress{
 				ingressList[5],
 			}, []*configurationv1beta1.TCPIngress{})
 		})
 	})
 	t.Run("Ingress rules with multiple ports for one Service use separate hostnames for each port", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{
 			ingressList[6],
 		}, []*configurationv1beta1.TCPIngress{})
 		assert.Equal("foo-svc.foo-namespace.80.svc", *parsedInfo.ServiceNameToServices["foo-namespace.foo-svc.80"].Host)
 		assert.Equal("foo-svc.foo-namespace.8000.svc", *parsedInfo.ServiceNameToServices["foo-namespace.foo-svc.8000"].Host)
 	})
 	t.Run("Ingress rule with path containing multiple slashes ('//') is skipped", func(t *testing.T) {
-		parsedInfo := p.parseIngressRules([]*networking.Ingress{
+		parsedInfo := parseIngressRules(logrus.New(), []*networking.Ingress{
 			ingressList[7],
 		}, []*configurationv1beta1.TCPIngress{})
 		assert.Empty(parsedInfo.ServiceNameToServices)
@@ -3195,7 +3158,6 @@ func TestParseIngressRules(t *testing.T) {
 
 func TestParseKnativeIngressRules(t *testing.T) {
 	assert := assert.New(t)
-	p := Parser{}
 	ingressList := []*knative.Ingress{
 		// 0
 		{
@@ -3345,19 +3307,19 @@ func TestParseKnativeIngressRules(t *testing.T) {
 		},
 	}
 	t.Run("no ingress returns empty info", func(t *testing.T) {
-		parsedInfo := p.parseKnativeIngressRules([]*knative.Ingress{})
+		parsedInfo := parseKnativeIngressRules([]*knative.Ingress{})
 		assert.Equal(map[string]Service{}, parsedInfo.ServiceNameToServices)
 		assert.Equal(map[string][]string{}, parsedInfo.SecretNameToSNIs)
 	})
 	t.Run("empty ingress returns empty info", func(t *testing.T) {
-		parsedInfo := p.parseKnativeIngressRules([]*knative.Ingress{
+		parsedInfo := parseKnativeIngressRules([]*knative.Ingress{
 			ingressList[0],
 		})
 		assert.Equal(map[string]Service{}, parsedInfo.ServiceNameToServices)
 		assert.Equal(map[string][]string{}, parsedInfo.SecretNameToSNIs)
 	})
 	t.Run("basic knative Ingress resource is parsed", func(t *testing.T) {
-		parsedInfo := p.parseKnativeIngressRules([]*knative.Ingress{
+		parsedInfo := parseKnativeIngressRules([]*knative.Ingress{
 			ingressList[1],
 		})
 		assert.Equal(1, len(parsedInfo.ServiceNameToServices))
@@ -3394,7 +3356,7 @@ func TestParseKnativeIngressRules(t *testing.T) {
 		assert.Equal(map[string][]string{}, parsedInfo.SecretNameToSNIs)
 	})
 	t.Run("knative TLS section is correctly parsed", func(t *testing.T) {
-		parsedInfo := p.parseKnativeIngressRules([]*knative.Ingress{
+		parsedInfo := parseKnativeIngressRules([]*knative.Ingress{
 			ingressList[3],
 		})
 
@@ -3404,7 +3366,7 @@ func TestParseKnativeIngressRules(t *testing.T) {
 		}, parsedInfo.SecretNameToSNIs)
 	})
 	t.Run("split knative Ingress resource chooses the highest split", func(t *testing.T) {
-		parsedInfo := p.parseKnativeIngressRules([]*knative.Ingress{
+		parsedInfo := parseKnativeIngressRules([]*knative.Ingress{
 			ingressList[2],
 		})
 		assert.Equal(1, len(parsedInfo.ServiceNameToServices))
@@ -3984,16 +3946,12 @@ func TestOverrideRoute(t *testing.T) {
 	}
 
 	for _, testcase := range testTable {
-		p := Parser{
-			Logger: logrus.New(),
-		}
-		p.overrideRoute(&testcase.inRoute, &testcase.inKongIngresss)
+		overrideRoute(logrus.New(), &testcase.inRoute, &testcase.inKongIngresss)
 		assert.Equal(testcase.inRoute, testcase.outRoute)
 	}
 
 	assert.NotPanics(func() {
-		var p Parser
-		p.overrideRoute(nil, nil)
+		overrideRoute(logrus.New(), nil, nil)
 	})
 }
 
@@ -4025,8 +3983,7 @@ func TestOverrideRoutePriority(t *testing.T) {
 		},
 		Ingress: netIngress,
 	}
-	var p Parser
-	p.overrideRoute(&route, &kongIngress)
+	overrideRoute(logrus.New(), &route, &kongIngress)
 	assert.Equal(route.Hosts, kong.StringSlice("foo.com", "bar.com"))
 	assert.Equal(route.Protocols, kong.StringSlice("grpc", "grpcs"))
 }
@@ -4044,11 +4001,10 @@ func TestOverrideRouteByKongIngress(t *testing.T) {
 		},
 	}
 
-	var p Parser
-	p.overrideRouteByKongIngress(&route, &kongIngress)
+	overrideRouteByKongIngress(logrus.New(), &route, &kongIngress)
 	assert.Equal(route.Hosts, kong.StringSlice("foo.com", "bar.com"))
 	assert.NotPanics(func() {
-		p.overrideRoute(nil, nil)
+		overrideRoute(logrus.New(), nil, nil)
 	})
 }
 func TestOverrideRouteByAnnotation(t *testing.T) {
@@ -4074,13 +4030,12 @@ func TestOverrideRouteByAnnotation(t *testing.T) {
 		},
 		Ingress: netIngress,
 	}
-	var p Parser
-	p.overrideRouteByAnnotation(&route)
+	overrideRouteByAnnotation(logrus.New(), &route)
 	assert.Equal(route.Hosts, kong.StringSlice("foo.com", "bar.com"))
 	assert.Equal(route.Protocols, kong.StringSlice("grpc", "grpcs"))
 
 	assert.NotPanics(func() {
-		p.overrideRoute(nil, nil)
+		overrideRoute(logrus.New(), nil, nil)
 	})
 }
 
@@ -4651,10 +4606,7 @@ func TestGetEndpoints(t *testing.T) {
 
 	for _, testCase := range tests {
 		t.Run(testCase.name, func(t *testing.T) {
-			p := Parser{
-				Logger: logrus.New(),
-			}
-			result := p.getEndpoints(testCase.svc, testCase.port, testCase.proto, testCase.fn)
+			result := getEndpoints(logrus.New(), testCase.svc, testCase.port, testCase.proto, testCase.fn)
 			if len(testCase.result) != len(result) {
 				t.Errorf("expected %v Endpoints but got %v", testCase.result, len(result))
 			}
@@ -4887,8 +4839,7 @@ func Test_processCredential(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var p Parser
-			if err := p.processCredential(tt.args.credType, tt.args.consumer,
+			if err := processCredential(logrus.New(), tt.args.credType, tt.args.consumer,
 				tt.args.credConfig); (err != nil) != tt.wantErr {
 				t.Errorf("processCredential() error = %v, wantErr %v",
 					err, tt.wantErr)
@@ -5873,10 +5824,7 @@ func Test_overrideRouteMethods(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := Parser{
-				Logger: logrus.New(),
-			}
-			p.overrideRouteMethods(tt.args.route, tt.args.anns)
+			overrideRouteMethods(logrus.New(), tt.args.route, tt.args.anns)
 			if !reflect.DeepEqual(tt.args.route, tt.want) {
 				t.Errorf("overrideRouteMethods() got = %v, want %v", tt.args.route, tt.want)
 			}
